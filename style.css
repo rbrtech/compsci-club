@@ -1,0 +1,167 @@
+:root {
+  --main: #640502;
+  --secondary:#9A9A9A;
+  --white: #F7F7F7;
+  --opaqueBG: #F7F7F7bb;
+  --dark: #252525aa;
+  --DARKbg: #252525;
+  --DARKmain: #640502ff;
+  --DARKwhite: #DADADA;
+  --DARKsecondary: #4D4D4D;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px;
+  min-height: 100vh;
+  display: grid;
+  grid-gap: 1em;
+  grid: 
+    'header header' auto
+    'nav main' 1fr
+    'nav footer' auto / 12em 1fr;
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: var(--main);
+  transition: background-color 2s ease;
+}
+
+/* MOBILE MEDIA QUERY */
+@media (max-width: 40em) {
+  body {
+    grid: 
+      'header' auto
+      'nav' auto
+      'main' 1fr
+      'footer' auto / 1fr;
+    background-color: var(--main);
+    transition: background-color 2s ease;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  main {
+    display: grid;
+    grid-auto-rows: min-content;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+ }
+ .counter {
+   justify-self: center;
+ }
+ footer {
+   text-align: center;
+ }
+}
+
+header {
+  grid-area: header;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+nav {
+  grid-area: nav;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-heading{
+  text-decoration: underline;
+}
+
+main {
+  grid-area: main;
+  border-radius: 15px; 
+}
+
+footer {
+  grid-area: footer;
+  border-radius: 15px;
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  /* grid-auto-rows: min-content; */
+
+}
+
+body {
+  background-color: var(--main);
+  transition: background-color 2s ease;
+}
+
+header,
+footer {
+  background-color: var(--white);
+  padding: 1em;
+  transition: all 2s ease;
+}
+
+nav,
+main {
+  background-color: var(--opaqueBG);
+  padding: 1em;
+  transition: all 2s ease;
+}
+
+.title {
+  font-family: 'Calistoga', cursive;
+}
+
+#click-button {
+  font-size: 1.5rem;
+  padding: .5rem 2rem;
+  border: 2px solid var(--secondary);
+  border-radius: 15px;
+}
+
+#click-button:hover {
+  cursor: pointer;
+  border: 2px solid var(--dark);
+}
+
+#dead-button {
+  font-size: 1.5rem;
+  padding: .5rem 2rem;
+  border: 2px solid var(--secondary);
+  background-color: var(--dark);
+  border-radius: 15px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  width: 125px;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+#count-num {
+  font-size: 2rem;
+  padding-left: 10px;
+}
+
+
+/* ------------------DARK MODE */
+body.dark-mode {
+  background-color: var(--DARKbg);
+}
+
+nav.dark-mode,
+main.dark-mode {
+  background-color: var(--DARKmain);
+  color: var(--DARKwhite);
+}
+
+header.dark-mode,
+footer.dark-mode {
+  background-color: var(--DARKsecondary);
+  color: var(--DARKwhite);
+}
