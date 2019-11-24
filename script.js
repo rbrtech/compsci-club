@@ -45,7 +45,6 @@ let counter = document.createElement('div');
 counter.setAttribute('id', 'count-num');
 firebase
   .database()
-// database
   .ref()
   .on('value', snapshot => {
     counter.innerText = snapshot.val().clicks;
@@ -64,7 +63,6 @@ let incrementCounter = () => {
   if (currCount < Number.MAX_SAFE_INTEGER) {
     firebase
       .database()
-    // database
       .ref()
       .set({
         clicks: currCount
