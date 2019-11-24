@@ -15,7 +15,6 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-// const database = firebase.database();
 
 // DOM elements
 const header = document.getElementById('rbr-header');
