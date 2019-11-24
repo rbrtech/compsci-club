@@ -1,5 +1,22 @@
 console.log('GO BUCS!');
 
+// Firebase config
+var firebaseConfig = {
+  apiKey: "AIzaSyDPzCd7zDYbSlvfty4LxtBW7YE3Rmx9IKY",
+  authDomain: "compsci-club-5c2e0.firebaseapp.com",
+  databaseURL: "https://compsci-club-5c2e0.firebaseio.com",
+  projectId: "compsci-club-5c2e0",
+  storageBucket: "compsci-club-5c2e0.appspot.com",
+  messagingSenderId: "407637857342",
+  appId: "1:407637857342:web:1b36d7433f3a5f9215ed6f",
+  measurementId: "G-0YY8DFEWF9"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+// const database = firebase.database();
+
 // DOM elements
 const header = document.getElementById('rbr-header');
 const body = document.getElementById('rbr-body');
@@ -10,25 +27,30 @@ const nav = document.getElementById('rbr-nav');
 // Footer Date
 const start = new Date().getFullYear();
 const date = `Property of Red Bank Regional HS`;
-const copy = `&copy ${start}`
+const copy = `&copy ${start}`;
 const dateDiv = document.createElement('div');
 const copyDiv = document.createElement('div');
 const footerDiv = document.createElement('div');
 dateDiv.innerHTML = date;
 copyDiv.innerHTML = copy;
 footer.appendChild(dateDiv);
-footer.appendChild(copyDiv)
+footer.appendChild(copyDiv);
 
 // Program State
-let state = {
-  count: 0,
+const state = {
   darkMode: false
 };
 
 // Counter Button
 let counter = document.createElement('div');
 counter.setAttribute('id', 'count-num');
-counter.innerText = state.count;
+firebase
+  .database()
+// database
+  .ref()
+  .on('value', snapshot => {
+    counter.innerText = snapshot.val().clicks;
+  });
 
 let renderButton = document.createElement('button');
 renderButton.innerText = `👍`;
@@ -38,10 +60,16 @@ renderButton.addEventListener('click', async () => {
 });
 
 let incrementCounter = () => {
-  if (state.count < Number.MAX_SAFE_INTEGER) {
-    // if (state.count < 10) {
-    state.count += 1;
-    counter.innerText = state.count;
+  let currCount = document.getElementById('count-num').textContent;
+  currCount++;
+  if (currCount < Number.MAX_SAFE_INTEGER) {
+    firebase
+      .database()
+    // database
+      .ref()
+      .set({
+        clicks: currCount
+      });
   } else {
     counter.innerText = `🎉`;
     renderButton.innerText = `❌`;
