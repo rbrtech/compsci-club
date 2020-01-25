@@ -2,14 +2,14 @@ console.log('GO BUCS!');
 
 // Firebase config
 var firebaseConfig = {
-  apiKey: "AIzaSyDPzCd7zDYbSlvfty4LxtBW7YE3Rmx9IKY",
-  authDomain: "compsci-club-5c2e0.firebaseapp.com",
-  databaseURL: "https://compsci-club-5c2e0.firebaseio.com",
-  projectId: "compsci-club-5c2e0",
-  storageBucket: "compsci-club-5c2e0.appspot.com",
-  messagingSenderId: "407637857342",
-  appId: "1:407637857342:web:1b36d7433f3a5f9215ed6f",
-  measurementId: "G-0YY8DFEWF9"
+  apiKey: 'AIzaSyDPzCd7zDYbSlvfty4LxtBW7YE3Rmx9IKY',
+  authDomain: 'compsci-club-5c2e0.firebaseapp.com',
+  databaseURL: 'https://compsci-club-5c2e0.firebaseio.com',
+  projectId: 'compsci-club-5c2e0',
+  storageBucket: 'compsci-club-5c2e0.appspot.com',
+  messagingSenderId: '407637857342',
+  appId: '1:407637857342:web:1b36d7433f3a5f9215ed6f',
+  measurementId: 'G-0YY8DFEWF9'
 };
 
 // Initialize Firebase
@@ -74,6 +74,7 @@ let incrementCounter = () => {
   }
 };
 
+// Create Page Contents
 let container = () => {
   let container = document.createElement('div');
   container.setAttribute('class', 'counter');
@@ -81,8 +82,6 @@ let container = () => {
   container.appendChild(counter);
   return container;
 };
-
-main.appendChild(container());
 
 // Dark Mode Toggle
 let pressed = [];
@@ -112,3 +111,78 @@ let toggleDarkMode = () => {
     nav.removeAttribute('class', 'dark-mode');
   }
 };
+
+// Student Project Handler
+const projectList = [
+  {
+    id: 'tresten',
+    name: 'Tresten Simon',
+    projName: 'Wave Simulator',
+    img: ['./img/tresten1.jpg', './img/tresten2.jpg', './img/tresten3.jpg'],
+    link: 'https://wave-simulation.trestans23.repl.co/'
+  },
+
+];
+
+let projects = () => {
+  // queue for projects based on array contents
+  let projQueue = [];
+  let projContainer = document.createElement('div');
+  projContainer.setAttribute('id', 'proj-container');
+  // create indv proj divs
+  for (i in projectList) {
+    let proj = document.createElement('div');
+    proj.setAttribute('class', 'proj');
+    proj.setAttribute('id', projectList[i].id);
+    let titleDiv = document.createElement('div');
+    titleDiv.setAttribute('class', 'name');
+    titleDiv.innerText =
+      projectList[i].name + ' "' + projectList[i].projName + '"';
+    if (projectList[i].link) {
+      let button = document.createElement('a');
+      button.innerText = 'Visit Site';
+      button.setAttribute('class', 'link-to');
+      button.setAttribute('href', projectList[i].link);
+      button.setAttribute('target', '_blank');
+      titleDiv.appendChild(button);
+    }
+    let imageDiv = document.createElement('div');
+    imageDiv.setAttribute('class', 'images');
+    for (j in projectList[i].img) {
+      let image = document.createElement('img');
+      image.src = projectList[i].img[j];
+      image.setAttribute(
+        'alt',
+        projectList[i].img[j].substring(6).split('.')[0]
+      );
+      imageDiv.appendChild(image);
+    }
+    proj.appendChild(titleDiv);
+    proj.appendChild(imageDiv);
+    projQueue.push(proj);
+  }
+  // append all of the things
+  for (i in projQueue) {
+    projContainer.appendChild(projQueue[i]);
+  }
+
+  return projContainer;
+};
+
+// add project links to nav
+let projectNames = () => {
+  navList = document.createElement('div');
+  navList.setAttribute('class', 'nav-list');
+  for (i in projectList) {
+    let name = document.createElement('a');
+    name.innerText = projectList[i].name;
+    name.setAttribute('class', 'link-to');
+    name.setAttribute('href', `#${projectList[i].id}`);
+    navList.appendChild(name);
+  }
+  return navList;
+};
+
+main.appendChild(container());
+main.appendChild(projects());
+nav.appendChild(projectNames());
