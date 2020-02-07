@@ -39,7 +39,7 @@ let counter = document.createElement('div');
 counter.setAttribute('id', 'count-num');
 // HTTP Request
 
-const url = 'https://graph-server.christopherwatson.now.sh/graphql/';
+const url = 'https://graph-server.now.sh/graphql/';
 const options = {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
