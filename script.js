@@ -1,29 +1,13 @@
 console.log('GO BUCS!');
 
-// Firebase config
-var firebaseConfig = {
-  apiKey: 'AIzaSyDPzCd7zDYbSlvfty4LxtBW7YE3Rmx9IKY',
-  authDomain: 'compsci-club-5c2e0.firebaseapp.com',
-  databaseURL: 'https://compsci-club-5c2e0.firebaseio.com',
-  projectId: 'compsci-club-5c2e0',
-  storageBucket: 'compsci-club-5c2e0.appspot.com',
-  messagingSenderId: '407637857342',
-  appId: '1:407637857342:web:1b36d7433f3a5f9215ed6f',
-  measurementId: 'G-0YY8DFEWF9'
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
-
-// DOM elements
+// DOM elements //
 const header = document.getElementById('rbr-header');
 const body = document.getElementById('rbr-body');
 const main = document.getElementById('rbr-main');
 const footer = document.getElementById('rbr-footer');
 const nav = document.getElementById('rbr-nav');
 
-// Footer Date
+// Footer Date //
 const start = new Date().getFullYear();
 const date = `Property of Red Bank Regional HS`;
 const copy = `&copy ${start}`;
@@ -35,21 +19,39 @@ copyDiv.innerHTML = copy;
 footer.appendChild(dateDiv);
 footer.appendChild(copyDiv);
 
-// Program State
-const state = {
+// Program State //
+let state = {
   darkMode: false
 };
 
-// Counter Button
+// Counter Button Handler //
+// GQL Queries
+const getClicks = `
+  query {
+    getClicks(id: "5e3c9d9c0eed1e12afb140cf") {
+      count
+    }
+  }
+`;
+
+// Counter DIV
 let counter = document.createElement('div');
 counter.setAttribute('id', 'count-num');
-firebase
-  .database()
-  .ref()
-  .on('value', snapshot => {
-    counter.innerText = snapshot.val().clicks;
-  });
+// HTTP Request
 
+const url = procces.env.NICE_TRY;
+const options = {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ query: getClicks })
+};
+let response = fetch(url, options).then(async res => {
+  let data = await res.json();
+  // await console.log(data.data.getClicks.count);
+  counter.innerText = await data.data.getClicks.count;
+});
+
+// Update Count and Button Logic
 let renderButton = document.createElement('button');
 renderButton.innerText = `👍`;
 renderButton.setAttribute('id', 'click-button');
@@ -58,15 +60,30 @@ renderButton.addEventListener('click', async () => {
 });
 
 let incrementCounter = () => {
+  // check if increment will cause Integer error
   let currCount = document.getElementById('count-num').textContent;
-  currCount++;
-  if (currCount < Number.MAX_SAFE_INTEGER) {
-    firebase
-      .database()
-      .ref()
-      .set({
-        clicks: currCount
-      });
+  if (currCount + 1 < Number.MAX_SAFE_INTEGER) {
+    // Get Clicks GQL Query
+    const updateCount = `
+      mutation {
+        updateCount(id: "5e3c9d9c0eed1e12afb140cf", count:${parseInt(
+          currCount
+        ) + 1}) {
+          count
+        }
+      }
+    `;
+    const options2 = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: updateCount })
+    };
+
+    let response2 = fetch(url, options2).then(async res => {
+      let data = await res.json();
+      await console.log(data.data.updateCount.count);
+      counter.innerText = await data.data.updateCount.count;
+    });
   } else {
     counter.innerText = `🎉`;
     renderButton.innerText = `❌`;
@@ -74,7 +91,7 @@ let incrementCounter = () => {
   }
 };
 
-// Create Page Contents
+// Create Page Contents //
 let container = () => {
   let container = document.createElement('div');
   container.setAttribute('class', 'counter');
@@ -83,7 +100,7 @@ let container = () => {
   return container;
 };
 
-// Dark Mode Toggle
+// Dark Mode Toggle //
 let pressed = [];
 const secretCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
 window.addEventListener('keyup', e => {
@@ -112,7 +129,7 @@ let toggleDarkMode = () => {
   }
 };
 
-// Student Project Handler
+// Student Project Handler //
 const projectList = [
   {
     id: 'tresten',
@@ -120,8 +137,7 @@ const projectList = [
     projName: 'Wave Simulator',
     img: ['./img/tresten1.jpg', './img/tresten2.jpg', './img/tresten3.jpg'],
     link: 'https://wave-simulation.trestans23.repl.co/'
-  },
-
+  }
 ];
 
 let projects = () => {
