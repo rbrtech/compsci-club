@@ -1,0 +1,14 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Secret Action
+      env:
+        NICE_TRY: ${{ secrets.NICE_TRY }} 
+
