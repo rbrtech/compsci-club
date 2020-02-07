@@ -39,7 +39,7 @@ let counter = document.createElement('div');
 counter.setAttribute('id', 'count-num');
 // HTTP Request
 
-const url = procces.env.NICE_TRY;
+const url = process.env.NICE_TRY;
 const options = {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
